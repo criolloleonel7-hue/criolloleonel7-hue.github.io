@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma Académica - U.E.F. Benito Juárez</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #fcf8f2;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0b3a0d, #0f4c11);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .logo-institucional {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 4px;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .header-text {
+            text-align: left;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        header p {
+            font-size: 1rem;
+            color: #e2f0d9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: #faebd7; 
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e9d8c4;
+            border-top: 6px solid #0f4c11;
+        }
+
+        .card-full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            color: #0f4c11;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #dcd1c4;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #fff8f0;
+        }
+
+        input:focus, select:focus {
+            border-color: #0f4c11;
+            outline: none;
+        }
+
+        input:disabled, select:disabled {
+            background-color: #e9d8c4;
+            color: #777;
+            cursor: not-allowed;
+        }
+
+        button.btn-guardar {
+            width: 100%;
+            background: #39ff14;
+            color: #0b3a0d;
+            border: none;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(57, 255, 20, 0.3);
+            margin-bottom: 10px;
+        }
+
+        button.btn-guardar:hover {
+            background: #2ce00f;
+        }
+
+        button.btn-nuevo {
+            width: 100%;
+            background: #0f4c11;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button.btn-nuevo:hover {
+            background: #0b3a0d;
+        }
+
+        .btn-borrar {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-borrar:hover {
+            background: #cc0000;
+        }
+
+        .btn-editar {
+            background: #0f4c11;
+            color: #39ff14;
+            border: 1px solid #0f4c11;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-editar:hover {
+            background: #0b3a0d;
+        }
+
+        .btn-historial {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-historial:hover {
+            background: #0056b3;
+        }
+
+        .promedio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .materia-box {
+            background: #fff8f0;
+            border: 1px solid #0f4c11;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .materia-box h4 {
+            font-size: 0.8rem;
+            color: #0f4c11;
+            margin-bottom: 5px;
+        }
+
+        .materia-num {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .materia-estado {
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-top: 3px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: #fff8f0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e9d8c4;
+        }
+
+        th {
+            background-color: #0f4c11;
+            color: white;
+        }
+
+        .alert-box {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .alert-success { background-color: #d4edda; border-left: 5px solid #28a745; color: #155724; }
+        .alert-warning { background-color: #fff3cd; border-left: 5px solid #ffc107; color: #856404; }
+        .alert-danger { background-color: #f8d7da; border-left: 5px solid #dc3545; color: #721c24; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) { 
+            .container { grid-template-columns: 1fr; }
+            .header-content { flex-direction: column; text-align: center; gap: 10px; }
+            .header-text { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <img src="escudo_bj.png" class="logo-institucional">
+            <div class="header-text">
+                <h1>U.E.F. BENITO JUÁREZ</h1>
+                <p>Sistema de Gestión Académica</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div class="card">
+            <h2 id="formulario-titulo"> Calificaciones del Estudiante</h2>
+            
+            <div class="form-group">
+                <label for="estudiante">Nombre del Estudiante:</label>
+                <input type="text" id="estudiante" placeholder="Ej. Carlos Andrade">
+            </div>
+
+            <div class="form-group">
+                <label for="materia">Asignatura:</label>
+                <select id="materia">
+                    <option value="Matemáticas">Matemáticas</option>
+                    <option value="Lengua y Literatura">Lengua y Literatura</option>
+                    <option value="Física">Física</option>
+                    <option value="Química">Química</option>
+                    <option value="Historia">Historia</option>
+                    <option value="Biología">Biología</option>
+                    <option value="Educación Física">Educación Física</option>
+                    <option value="Inglés">Inglés</option>
+                    <option value="Emprendimiento y Gestión">Emprendimiento y Gestión</option>
+                    <option value="Ofimática">Ofimática</option>
+                    <option value="Diseño y Desarrollo Web">Diseño y Desarrollo Web</option>
+                    <option value="Formación y Orientación Laboral">Formación y Orientación Laboral</option>
+                    <option value="Programación y Base de Datos">Programación y Base de Datos</option>
+                    <option value="Sistemas Operativos y Redes">Sistemas Operativos y Redes</option>
+                    <option value="Soporte Técnico">Soporte Técnico</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="tema">Tema de la Tarea:</label>
+                <input type="text" id="tema" placeholder="Ej. Taller de Vectores">
+            </div>
+            
+            <div class="form-group">
+                <label for="nota">Calificación (sobre 10):</label>
+                <input type="number" id="nota" min="0" max="10" step="0.1" placeholder="Ej. 8.2">
+            </div>
+            
+            <button class="btn-guardar" id="btn-guardar-texto" onclick="guardarNotaCelda()">Guardar Calificación</button>
+            <button class="btn-nuevo" onclick="limpiarParaNuevoEstudiante()">➕ Registrar Nuevo Estudiante</button>
+        </div>
+
+        <div class="card" style="display: flex; flex-direction: column; gap: 15px;">
+            <div>
+                <h2> Sistema de Notificaciones</h2>
+                <div id="alerta" class="alert-box">
+                    <strong id="alerta-titulo">Aviso:</strong> <span id="alerta-mensaje">No hay alertas.</span>
+                </div>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #dcd1c4;">
+
+            <div>
+                <h2>Promedios Generales de la Materia</h2>
+                <div class="promedio-grid">
+                    <div class="materia-box"><h4>Matemáticas</h4><div class="materia-num" id="prom-Matemáticas">0.00</div><div class="materia-estado" id="est-Matemáticas">-</div></div>
+                    <div class="materia-box"><h4>Lengua y Lit.</h4><div class="materia-num" id="prom-Lengua">0.00</div><div class="materia-estado" id="est-Lengua">-</div></div>
+                    <div class="materia-box"><h4>Física</h4><div class="materia-num" id="prom-Física">0.00</div><div class="materia-estado" id="est-Física">-</div></div>
+                    <div class="materia-box"><h4>Química</h4><div class="materia-num" id="prom-Química">0.00</div><div class="materia-estado" id="est-Química">-</div></div>
+                    <div class="materia-box"><h4>Historia</h4><div class="materia-num" id="prom-Historia">0.00</div><div class="materia-estado" id="est-Historia">-</div></div>
+                    <div class="materia-box"><h4>Biología</h4><div class="materia-num" id="prom-Biología">0.00</div><div class="materia-estado" id="est-Biología">-</div></div>
+                    <div class="materia-box"><h4>Ed. Física</h4><div class="materia-num" id="prom-Educación">0.00</div><div class="materia-estado" id="est-Educación">-</div></div>
+                    <div class="materia-box"><h4>Inglés</h4><div class="materia-num" id="prom-Inglés">0.00</div><div class="materia-estado" id="est-Inglés">-</div></div>
+                    <div class="materia-box"><h4>Emp. y Gestión</h4><div class="materia-num" id="prom-Emprendimiento">0.00</div><div class="materia-estado" id="est-Emprendimiento">-</div></div>
+                    <div class="materia-box"><h4>Ofimática</h4><div class="materia-num" id="prom-Ofimática">0.00</div><div class="materia-estado" id="est-Ofimática">-</div></div>
+                    <div class="materia-box"><h4>Diseño Web</h4><div class="materia-num" id="prom-Diseño">0.00</div><div class="materia-estado" id="est-Diseño">-</div></div>
+                    <div class="materia-box"><h4>FOL</h4><div class="materia-num" id="prom-Formación">0.00</div><div class="materia-estado" id="est-Formación">-</div></div>
+                    <div class="materia-box"><h4>Prog. y BDD</h4><div class="materia-num" id="prom-Programación">0.00</div><div class="materia-estado" id="est-Programación">-</div></div>
+                    <div class="materia-box"><h4>Sistemas y Redes</h4><div class="materia-num" id="prom-Sistemas">0.00</div><div class="materia-estado" id="est-Sistemas">-</div></div>
+                    <div class="materia-box"><h4>Soporte Técnico</h4><div class="materia-num" id="prom-Soporte">0.00</div><div class="materia-estado" id="est-Soporte">-</div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-full">
+            <h2>Detalle de Notas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Estudiante</th>
+                        <th>Asignatura</th>
+                        <th>Actividad</th>
+                        <th>Nota</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-notas">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card card-full" style="border-top: 6px solid #0056b3;">
+            <h2> Historial de Estudiantes Registrados </h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre del Estudiante</th>
+                        <th>Notas Registradas</th>
+                        <th></th> 
+                    </tr>
+                </thead>
+                <tbody id="tabla-historial">
+                    <tr>
+                        <td colspan="3" style="text-align: center; color: #777;">No hay estudiantes en el archivo general.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        var memoriaEstudiantes = {};
+        var estudianteActual = "";
+        var idNotaEnEdicion = null;
+
+        function guardarNotaCelda() {
+            var nombreInput = document.getElementById("estudiante").value.trim();
+            var materia = document.getElementById("materia").value;
+            var tema = document.getElementById("tema").value.trim();
+            var nota = parseFloat(document.getElementById("nota").value);
+
+            if (nombreInput === "" || tema === "" || isNaN(nota) || nota < 0 || nota > 10) {
+                alert("Llena todos los campos correctamente. Nota rango: 0-10.");
+                return;
+            }
+            estudianteActual = nombreInput;
+            document.getElementById("estudiante").disabled = true;
+
+            if (!memoriaEstudiantes[estudianteActual]) {
+                memoriaEstudiantes[estudianteActual] = [];
+            }
+            if (idNotaEnEdicion !== null) {
+                var notasAlumno = memoriaEstudiantes[estudianteActual];
+                for (var i = 0; i < notasAlumno.length; i++) {
+                    if (notasAlumno[i].id === idNotaEnEdicion) {
+                        notasAlumno[i].asignatura = materia;
+                        notasAlumno[i].actividad = tema;
+                        notasAlumno[i].valor = nota;
+                        break;
+                    }
+                }
+                idNotaEnEdicion = null;
+                document.getElementById("formulario-titulo").innerText = " Calificaciones del Estudiante";
+                document.getElementById("btn-guardar-texto").innerText = "Guardar Calificación";
+                document.getElementById("materia").disabled = false;
+            } else {
+                var nuevaNota = {
+                    id: Date.now(), 
+                    asignatura: materia,
+                    actividad: tema,
+                    valor: nota
+                };
+                memoriaEstudiantes[estudianteActual].push(nuevaNota);
+            }
+            actualizarPantallaCompleta();
+            lanzarNotificacion(estudianteActual, materia, tema, nota);
+
+            document.getElementById("nota").value = "";
+            document.getElementById("tema").value = "";
+        }
+        function actualizarPantallaCompleta() {
+            var tabla = document.getElementById("tabla-notas");
+            tabla.innerHTML = ""; 
+
+            var notasAlumno = memoriaEstudiantes[estudianteActual] || [];
+
+            for (var i = 0; i < notasAlumno.length; i++) {
+                var item = notasAlumno[i];
+                var fila = tabla.insertRow();
+                fila.innerHTML = `
+                    <td><b>${estudianteActual}</b></td>
+                    <td>${item.asignatura}</td>
+                    <td>${item.actividad}</td>
+                    <td><b>${item.valor.toFixed(2)}</b></td>
+                    <td><button class="btn-editar" onclick="seleccionarNotaEdicion(${item.id})"> Editar</button></td>
+                    <td><button class="btn-borrar" onclick="eliminarNotaDeAlumno(${item.id})"> Borrar</button></td>
+                `;
+            }
+            calcularPromediosMateria(notasAlumno);
+            actualizarHistorialGeneral();
+        }
+        function seleccionarNotaEdicion(idNota) {
+            var notasAlumno = memoriaEstudiantes[estudianteActual] || [];
+            var notaEncontrada = null;
+
+            for (var i = 0; i < notasAlumno.length; i++) {
+                if (notasAlumno[i].id === idNota) {
+                    notaEncontrada = notasAlumno[i];
+                    break;
+                }
+            }
+            if (notaEncontrada !== null) {
+                idNotaEnEdicion = idNota;
+                document.getElementById("materia").value = notaEncontrada.asignatura;
+                document.getElementById("tema").value = notaEncontrada.actividad;
+                document.getElementById("nota").value = notaEncontrada.valor;
+
+                document.getElementById("formulario-titulo").innerText = " Editando Nota Seleccionada";
+                document.getElementById("btn-guardar-texto").innerText = "Actualizar Nota";
+                
+                lanzarNotificacion(estudianteActual, notaEncontrada.asignatura, notaEncontrada.actividad, notaEncontrada.valor);
+            }
+        }
+        function eliminarNotaDeAlumno(idNota) {
+            var notasAlumno = memoriaEstudiantes[estudianteActual] || [];
+            for (var i = 0; i < notasAlumno.length; i++) {
+                if (notasAlumno[i].id === idNota) {
+                    notasAlumno.splice(i, 1);
+                    break;
+                }
+            }
+            if(idNotaEnEdicion === idNota) {
+                idNotaEnEdicion = null;
+                document.getElementById("formulario-titulo").innerText = " Calificaciones del Estudiante";
+                document.getElementById("btn-guardar-texto").innerText = "Guardar Calificación";
+                document.getElementById("nota").value = "";
+                document.getElementById("tema").value = "";
+            }
+            actualizarPantallaCompleta();
+        }
+        function calcularPromediosMateria(notasAlumno) {
+            var materias = [
+                "Matemáticas", "Lengua y Literatura", "Física", "Química", "Historia",
+                "Biología", "Educación Física", "Inglés", "Emprendimiento y Gestión", "Ofimática",
+                "Diseño y Desarrollo Web", "Formación y Orientación Laboral", "Programación y Base de Datos",
+                "Sistemas Operativos y Redes", "Soporte Técnico"
+            ];
+            for (var m = 0; m < materias.length; m++) {
+                var nombreMat = materias[m];
+                var suma = 0;
+                var cuenta = 0;
+
+                for (var i = 0; i < notasAlumno.length; i++) {
+                    if (notasAlumno[i].asignatura === nombreMat) {
+                        suma += notasAlumno[i].valor;
+                        cuenta++;
+                    }
+                }
+                var idElemento = nombreMat;
+                if (nombreMat === "Lengua y Literatura") idElemento = "Lengua";
+                if (nombreMat === "Educación Física") idElemento = "Educación";
+                if (nombreMat === "Emprendimiento y Gestión") idElemento = "Emprendimiento";
+                if (nombreMat === "Diseño y Desarrollo Web") idElemento = "Diseño";
+                if (nombreMat === "Formación y Orientación Laboral") idElemento = "Formación";
+                if (nombreMat === "Programación y Base de Datos") idElemento = "Programación";
+                if (nombreMat === "Sistemas Operativos y Redes") idElemento = "Sistemas";
+                if (nombreMat === "Soporte Técnico") idElemento = "Soporte";
+
+                var contenedorProm = document.getElementById("prom-" + idElemento);
+                var contenedorEst = document.getElementById("est-" + idElemento);
+
+                if (cuenta > 0) {
+                    var promedio = suma / cuenta;
+                    contenedorProm.innerText = promedio.toFixed(2);
+
+                    if (promedio >= 7) {
+                        contenedorEst.innerText = "Aprobado";
+                        contenedorEst.style.color = "green";
+                    } else if (promedio >= 5 && promedio < 7) {
+                        contenedorEst.innerText = "Supletorio";
+                        contenedorEst.style.color = "#b8860b";
+                    } else {
+                        contenedorEst.innerText = "Reprobado";
+                        contenedorEst.style.color = "red";
+                    }
+                } else {
+                    contenedorProm.innerText = "0.00";
+                    contenedorEst.innerText = "-";
+                    contenedorEst.style.color = "#333";
+                }
+            }
+        }
+
+        function actualizarHistorialGeneral() {
+            var tablaHistorial = document.getElementById("tabla-historial");
+            tablaHistorial.innerHTML = "";
+
+            var nombresEstudiantes = Object.keys(memoriaEstudiantes);
+
+            if (nombresEstudiantes.length === 0) {
+                tablaHistorial.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #777;">No hay estudiantes en el archivo general.</td></tr>`;
+                return;
+            }
+
+            for (var i = 0; i < nombresEstudiantes.length; i++) {
+                var nombre = nombresEstudiantes[i];
+                var cantidadNotas = memoriaEstudiantes[nombre].length;
+                var fila = tablaHistorial.insertRow();
+                fila.innerHTML = `
+                    <td><b>${nombre}</b></td>
+                    <td>${cantidadNotas} nota(s) guardada(s)</td>
+                    <td style="text-align: right;"><button class="btn-historial" onclick="cargarEstudianteExistente('${nombre}')"> Editar</button></td>
+                `;
+            }
+        }
+
+        function limpiarParaNuevoEstudiante() {
+            estudianteActual = "";
+            idNotaEnEdicion = null;
+            document.getElementById("estudiante").value = "";
+            document.getElementById("estudiante").disabled = false;
+            document.getElementById("nota").value = "";
+            document.getElementById("tema").value = "";
+            document.getElementById("formulario-titulo").innerText = "Calificaciones del Estudiante";
+            document.getElementById("btn-guardar-texto").innerText = "Guardar Calificación";
+            
+            document.getElementById("tabla-notas").innerHTML = "";
+            
+            var materiasIds = [
+                "Matemáticas", "Lengua", "Física", "Química", "Historia",
+                "Biología", "Educación", "Inglés", "Emprendimiento", "Ofimática",
+                "Diseño", "Formación", "Programación", "Sistemas", "Soporte"
+            ];
+            materiasIds.forEach(id => {
+                document.getElementById("prom-" + id).innerText = "0.00";
+                document.getElementById("est-" + id).innerText = "-";
+                document.getElementById("est-" + id).style.color = "#333";
+            });
+
+            document.getElementById("alerta").style.display = "none";
+        }
+
+        function cargarEstudianteExistente(nombreAlumno) {
+            estudianteActual = nombreAlumno;
+            idNotaEnEdicion = null;
+            document.getElementById("estudiante").value = nombreAlumno;
+            document.getElementById("estudiante").disabled = true;
+            document.getElementById("formulario-titulo").innerText = " Calificaciones del Estudiante";
+            document.getElementById("btn-guardar-texto").innerText = "Guardar Calificación";
+            document.getElementById("nota").value = "";
+            document.getElementById("tema").value = "";
+            
+            actualizarPantallaCompleta();
+
+            var cajaAlerta = document.getElementById("alerta");
+            cajaAlerta.className = "alert-box alert-warning";
+            document.getElementById("alerta-titulo").innerText = " Registro Recuperado:";
+            document.getElementById("alerta-mensaje").innerText = "Estás viendo las notas de " + nombreAlumno + ". Puedes añadir más calificaciones o borrarlas.";
+            cajaAlerta.style.display = "block";
+        }
+
+        function lanzarNotificacion(estudiante, materia, tema, nota) {
+            var cajaAlerta = document.getElementById("alerta");
+            var tituloAlerta = document.getElementById("alerta-titulo");
+            var mensajeAlerta = document.getElementById("alerta-mensaje");
+
+            if (nota > 7) {
+                cajaAlerta.className = "alert-box alert-success";
+                tituloAlerta.innerText = " Buen Rendimiento:";
+                mensajeAlerta.innerText = estudiante + " va por buen camino en " + materia + ".";
+            } else if (nota >= 5.1 && nota <= 7) {
+                cajaAlerta.className = "alert-box alert-warning";
+                tituloAlerta.innerText = " Rendimiento Regular:";
+                mensajeAlerta.innerText = estudiante + " debe reforzar la materia de " + materia + ".";
+            } else {
+                cajaAlerta.className = "alert-box alert-danger";
+                tituloAlerta.innerText = "Alerta Crítica de Rendimiento:";
+                mensajeAlerta.innerText = "El estudiante " + estudiante + " presenta un rendimiento muy bajo en " + materia + ". Falló en el tema: \"" + tema + "\". Se recomienda revisar urgentemente este contenido y asistir a tutorías para mejorar.";
+            }
+            cajaAlerta.style.display = "block";
+        }
+    </script>
+</body>
+</html>
